@@ -120,11 +120,11 @@ namespace sc::web {
 
     // element
 
-    std::string_view element::name() const { return view(as_node(node_)->name); }
+    std::string_view element::name() const & { return view(as_node(node_)->name); }
 
     std::string element::qualified_name() const { return qualified(as_node(node_)->ns, as_node(node_)->name); }
 
-    std::optional<std::string_view> element::attribute(const std::string_view name) const {
+    std::optional<std::string_view> element::attribute(const std::string_view name) const & {
         for (const xmlAttr *at = as_node(node_)->properties; at; at = at->next) {
             const bool prefixed = at->ns && at->ns->prefix;
             if (prefixed ? qualified(at->ns, at->name) == name : view(at->name) == name) return value_of(*document_, at);
@@ -132,7 +132,7 @@ namespace sc::web {
         return std::nullopt;
     }
 
-    std::string_view element::attribute(const std::string_view name, const std::string_view fallback) const {
+    std::string_view element::attribute(const std::string_view name, const std::string_view fallback) const & {
         return attribute(name).value_or(fallback);
     }
 

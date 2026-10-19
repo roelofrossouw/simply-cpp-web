@@ -32,11 +32,17 @@ namespace sc::web {
 
         explicit style(std::string_view declarations);
 
-        /// A property's value, empty when it has none.
-        [[nodiscard]] std::string_view operator[](std::string_view name) const;
+        /// A property's value, empty when it has none: a view into this style, or, from a temporary
+        /// one (element.style()["fill"]), a copy, so it can't outlive what it points into.
+        [[nodiscard]] std::string_view operator[](std::string_view name) const &;
+        [[nodiscard]] std::string operator[](std::string_view name) const && { return std::string{(*this)[name]}; }
 
-        /// The value, or nothing: tells an empty value from a missing one.
-        [[nodiscard]] std::optional<std::string_view> value(std::string_view name) const;
+        /// The value, or nothing: tells an empty value from a missing one (a copy from a temporary).
+        [[nodiscard]] std::optional<std::string_view> value(std::string_view name) const &;
+        [[nodiscard]] std::optional<std::string> value(std::string_view name) const && {
+            if (const auto found = value(name)) return std::string{*found};
+            return std::nullopt;
+        }
 
         [[nodiscard]] bool contains(std::string_view name) const { return value(name).has_value(); }
 

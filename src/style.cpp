@@ -85,11 +85,11 @@ namespace sc::web {
         take(text.size());
     }
 
-    std::optional<std::string_view> style::value(const std::string_view name) const {
+    std::optional<std::string_view> style::value(const std::string_view name) const & {
         const auto found = std::ranges::find_if(declarations_, [&](const declaration &each) { return same_name(each.name, name); });
         if (found == declarations_.end()) return std::nullopt;
         return std::string_view{found->value};
     }
 
-    std::string_view style::operator[](const std::string_view name) const { return value(name).value_or(std::string_view{}); }
+    std::string_view style::operator[](const std::string_view name) const & { return value(name).value_or(std::string_view{}); }
 }

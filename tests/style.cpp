@@ -39,8 +39,7 @@ int main() {
         CHECK(style.contains("margin"));                   // given, though empty
         CHECK(style["margin"].empty());
         CHECK_EQ(style.size(), std::size_t{4}); // background, content, color, margin: no "nonsense", no nameless one
-        const sc::web::style shouting{"fill: red !IMPORTANT"}; // views are into the style: keep it
-        CHECK_EQ(shouting["fill"], std::string_view{"red"});
+        CHECK_EQ(sc::web::style{"fill: red !IMPORTANT"}["fill"], std::string{"red"}); // from a temporary: a copy, safe
         CHECK(sc::web::style{""}.empty());
         CHECK(sc::web::style{" ; ;; "}.empty());
     }
@@ -52,6 +51,8 @@ int main() {
         CHECK(rect.has_value());
         if (rect) {
             CHECK(rect->style()["fill"] == "#2a6f97");
+            const auto fill = rect->style()["fill"]; // a std::string: the temporary style can go
+            CHECK_EQ(fill, std::string{"#2a6f97"});
             CHECK(rect->style().contains("stroke"));
         }
         CHECK(doc.root().child("circle")->style().empty()); // none: empty

@@ -122,11 +122,14 @@ namespace sc::web {
     };
 
     /// An element of a document: a cheap handle, copied freely, that keeps its document alive, so the
-    /// names, values and text it gives stay valid while it (or any other handle) lives.
+    /// names and values it gives (views into the document) stay valid while it (or any other handle)
+    /// lives. Called on a temporary element (load(file).root().name()), they give copies instead, so
+    /// nothing can outlive the document it points into.
     class element {
     public:
         /// Its local name, without a namespace prefix: "rect" for <svg:rect>.
-        [[nodiscard]] std::string_view name() const;
+        [[nodiscard]] std::string_view name() const &;
+        [[nodiscard]] std::string name() const && { return std::string{name()}; }
 
         /// Its name as written: "svg:rect".
         [[nodiscard]] std::string qualified_name() const;
@@ -136,14 +139,22 @@ namespace sc::web {
 
         /// An attribute's value by its name as written ("width", "xlink:href"); nothing when it
         /// has none.
-        [[nodiscard]] std::optional<std::string_view> attribute(std::string_view name) const;
+        [[nodiscard]] std::optional<std::string_view> attribute(std::string_view name) const &;
+        [[nodiscard]] std::optional<std::string> attribute(std::string_view name) const && {
+            if (const auto found = attribute(name)) return std::string{*found};
+            return std::nullopt;
+        }
 
         /// The value, or fallback when it has no such attribute.
-        [[nodiscard]] std::string_view attribute(std::string_view name, std::string_view fallback) const;
+        [[nodiscard]] std::string_view attribute(std::string_view name, std::string_view fallback) const &;
+        [[nodiscard]] std::string attribute(std::string_view name, std::string_view fallback) const && {
+            return std::string{attribute(name, fallback)};
+        }
 
         /// An attribute's value, empty when it has none, as std::map and nlohmann::json read by
         /// key: svg["width"]. attribute() or contains() tell an empty value from a missing one.
-        [[nodiscard]] std::string_view operator[](const std::string_view name) const { return attribute(name, {}); }
+        [[nodiscard]] std::string_view operator[](const std::string_view name) const & { return attribute(name, {}); }
+        [[nodiscard]] std::string operator[](const std::string_view name) const && { return std::string{(*this)[name]}; }
 
         [[nodiscard]] bool contains(const std::string_view name) const { return attribute(name).has_value(); }
 

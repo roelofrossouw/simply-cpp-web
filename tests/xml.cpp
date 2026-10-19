@@ -107,8 +107,7 @@ int main() {
     {
         const auto file = std::filesystem::temp_directory_path() / "sc-web-test.xml";
         std::ofstream{file} << "<a><b/></a>";
-        const auto loaded = sc::web::document::load(file); // views are valid while a handle lives: keep one
-        CHECK_EQ(loaded.root().name(), std::string_view{"a"});
+        CHECK_EQ(sc::web::document::load(file).root().name(), std::string{"a"}); // a temporary's name is a copy: safe
         std::filesystem::remove(file);
         CHECK_THROWS_AS(sc::web::document::load(file), sc::web::error);
         CHECK_THROWS_AS(sc::web::document::parse(""), sc::web::error);
