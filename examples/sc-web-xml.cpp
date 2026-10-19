@@ -15,7 +15,9 @@ int main(int argc, char **argv) {
     // sc::params brings -h/--help, and reports mistakes and exits.
     const sc::params args{argc, argv, {
         {"name", "sc-web-xml"},
-        {"description", "Reads an XML file (or, without FILE, a small SVG) with sc::web and shows its root, attributes, children and text."},
+        {"description", "Reads an XML file with sc::web and shows what's in it: the root element, its attributes, its "
+                        "children and its text. Without FILE it reads a small SVG of its own, so there's something to look at "
+                        "straight away.\nMore on the wiki: https://github.com/roelofrossouw/simply-cpp/wiki/Web"},
         {"positional", {
             {"file", {{"required", false}, {"help", "the XML file to read"}}}}}}};
 
