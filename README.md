@@ -21,6 +21,7 @@ target_link_libraries(myapp PRIVATE sc::sc-web-shared)
 const auto doc = sc::web::document::load("drawing.svg");   // or parse(text); sc::web::error says where it's wrong
 const auto svg = doc.root();
 svg.name();                                     // "svg", without a namespace prefix
+svg.is("svg");                                  // the same, as a check
 // Attributes by key, as a map; children and text through calls:
 svg["width"];                                   // an attribute by key: "200", or empty when it has none
 svg.attribute("width");                         // std::optional<std::string_view>, to tell missing from empty

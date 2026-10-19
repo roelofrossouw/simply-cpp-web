@@ -129,6 +129,9 @@ namespace sc::web {
         /// Its name as written: "svg:rect".
         [[nodiscard]] std::string qualified_name() const;
 
+        /// Whether its local name is this: if (!root.is("svg")) throw ...
+        [[nodiscard]] bool is(const std::string_view local_name) const { return name() == local_name; }
+
         /// An attribute's value by its name as written ("width", "xlink:href"); nothing when it
         /// has none.
         [[nodiscard]] std::optional<std::string_view> attribute(std::string_view name) const;
