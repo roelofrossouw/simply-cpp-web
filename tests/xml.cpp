@@ -31,6 +31,8 @@ int main() {
         const auto doc = sc::web::document::parse(svg);
         const auto root = doc.root();
         CHECK_EQ(root.name(), std::string_view{"svg"});
+        CHECK(root.is("svg"));
+        CHECK(!root.is("html"));
         CHECK(root.attribute("width") == std::optional<std::string_view>{"200"});
         CHECK(!root.attribute("depth").has_value());
         CHECK_EQ(root.attribute("depth", "none"), std::string_view{"none"});
