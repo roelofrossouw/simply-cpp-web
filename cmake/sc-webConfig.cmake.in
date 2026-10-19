@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+# The libraries link LibXml2::LibXml2, found by CMake's own FindLibXml2.
+find_dependency(LibXml2)
+
+include("${CMAKE_CURRENT_LIST_DIR}/sc-webTargets.cmake")
