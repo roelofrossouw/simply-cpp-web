@@ -36,11 +36,35 @@ svg.child("title")->text();                     // all the text inside, entities
 use["xlink:href"];                              // a prefixed attribute, by its name as written
 ```
 
+### Styles
+
+`element.style()` parses its `style="..."` attribute, and `sc::web::style{text}` any CSS
+declarations, into something read like a `std::map`:
+
+```cpp
+#include <style.h>   // xml.h includes it
+
+const auto style = rect.style();       // empty when it has no style attribute
+style["fill"];                         // "#2a6f97", or empty
+style.contains("stroke");
+style.value("stroke");                 // std::optional, to tell missing from empty
+for (const auto &[name, value]: style) { /* in order */ }
+```
+
+Property names are case-insensitive, as CSS's are (kept lowercased); values stay as written,
+trimmed. A `;` inside quotes or parentheses doesn't end a declaration, so
+`url(data:image/png;base64,...)` stays whole; comments are dropped, `!important` comes off the
+value, and a property given twice keeps its last value.
+
+### Lifetimes
+
 An element is a cheap handle that keeps its document alive, so the names,
 values and text it gives (`std::string_view`s into the document) stay valid
 while it, or any other handle or iterator of that document, lives. Keep one
 around rather than chaining off a temporary: `load(file).root().name()` would
 outlive its document.
+
+### Safety
 
 **Safe by default:** parsing never fetches anything, over the network or from
 a file (no external DTD or entity), and libxml2 limits how far a document's

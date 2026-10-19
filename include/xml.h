@@ -1,5 +1,7 @@
 #pragma once
 
+#include "style.h"
+
 #include <cstddef>
 #include <filesystem>
 #include <iterator>
@@ -146,6 +148,10 @@ namespace sc::web {
         [[nodiscard]] bool contains(const std::string_view name) const { return attribute(name).has_value(); }
 
         [[nodiscard]] web::attributes attributes() const;
+
+        /// Its style="..." attribute's declarations, parsed (empty when it has none):
+        /// el.style()["color"], el.style().contains("font"), for (const auto &[name, value]: el.style()).
+        [[nodiscard]] web::style style() const { return web::style{attribute("style", {})}; }
 
         [[nodiscard]] elements children() const;
 

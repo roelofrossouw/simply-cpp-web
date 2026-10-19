@@ -1,5 +1,5 @@
 // Reads XML with sc::web: the root, attributes, children as ranges (filtered by name, with
-// std::ranges algorithms), text, and what a mistake reports. Each line shows a call and what it
+// std::ranges algorithms), text, a style attribute, and what a mistake reports. Each line shows a call and what it
 // returned. With no FILE it reads a small SVG of its own; --help lists the options.
 
 #include <algorithm>
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
         const auto doc = file ? sc::web::document::load(file->get<std::string>())
                               : sc::web::document::parse(R"(<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="100">)"
                                                          R"(<title>A badge &amp; a dot</title>)"
-                                                         R"(<rect width="200" height="100" rx="12" fill="steelblue"/>)"
+                                                         R"(<rect width="200" height="100" rx="12" style="fill: steelblue; stroke: none"/>)"
                                                          R"(<circle cx="50" cy="50" r="20" fill="gold"/>)"
                                                          R"(<use xlink:href="#dot" x="100"/>)"
                                                          R"(<text x="90" y="60">simply <tspan font-weight="bold">cpp</tspan></text></svg>)");
@@ -52,6 +52,14 @@ int main(int argc, char **argv) {
         if (const auto title = root.child("title")) SC_SHOW(title->text());
         if (const auto text = root.child("text")) SC_SHOW(text->text());                       // its tspan's text too
         if (const auto use = root.child("use")) SC_SHOW((*use)["xlink:href"]);                 // a prefixed attribute
+
+        sc::console::heading("A style attribute, read like a map");
+        if (const auto rect = root.child("rect")) {
+            const auto style = rect->style();
+            SC_SHOW(style["fill"]);
+            SC_SHOW(style.contains("stroke"));
+            for (const auto &[name, value]: style) sc::console::note(name + ": " + value);
+        }
 
         sc::console::heading("A mistake");
         try {
