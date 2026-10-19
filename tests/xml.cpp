@@ -34,6 +34,10 @@ int main() {
         CHECK(root.attribute("width") == std::optional<std::string_view>{"200"});
         CHECK(!root.attribute("depth").has_value());
         CHECK_EQ(root.attribute("depth", "none"), std::string_view{"none"});
+        CHECK_EQ(root["width"], std::string_view{"200"}); // by key, as a map
+        CHECK(root["depth"].empty());
+        CHECK(root.contains("height"));
+        CHECK(!root.contains("depth"));
         std::vector<std::string> names;
         for (const auto &[name, value]: root.attributes()) names.emplace_back(name);
         CHECK_EQ(names, (std::vector<std::string>{"width", "height"})); // namespace declarations aren't attributes
@@ -71,6 +75,7 @@ int main() {
         CHECK(use.has_value());
         if (use) {
             CHECK(use->attribute("xlink:href") == std::optional<std::string_view>{"#a"}); // by its name as written
+            CHECK_EQ((*use)["xlink:href"], std::string_view{"#a"});
             CHECK(!use->attribute("href").has_value());
             CHECK(use->attribute("label") == std::optional<std::string_view>{"a expanded b"}); // joined around the entity
             std::vector<std::string> names;

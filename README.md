@@ -21,15 +21,18 @@ target_link_libraries(myapp PRIVATE sc::sc-web-shared)
 const auto doc = sc::web::document::load("drawing.svg");   // or parse(text); sc::web::error says where it's wrong
 const auto svg = doc.root();
 svg.name();                                     // "svg", without a namespace prefix
-svg.attribute("width");                         // std::optional<std::string_view>
-svg.attribute("height", "100");                 // or a fallback
+// Attributes by key, as a map; children and text through calls:
+svg["width"];                                   // an attribute by key: "200", or empty when it has none
+svg.attribute("width");                         // std::optional<std::string_view>, to tell missing from empty
+svg.attribute("height", "100");                 // or with a fallback
+svg.contains("viewBox");
 for (const auto &[name, value]: svg.attributes()) { /* in document order */ }
 for (const auto child: svg.children()) { /* elements only: no text or comments */ }
 for (const auto rect: svg.children("rect")) { /* by name */ }
 const auto children = svg.children();           // a std::ranges::forward_range
 std::ranges::find_if(children, [](const auto &e) { return e.attribute("id") == "logo"; });
 svg.child("title")->text();                     // all the text inside, entities decoded
-use.attribute("xlink:href");                    // a prefixed attribute, by its name as written
+use["xlink:href"];                              // a prefixed attribute, by its name as written
 ```
 
 An element is a cheap handle that keeps its document alive, so the names,
@@ -63,7 +66,8 @@ const auto doc = file ? sc::web::document::load(file->get<std::string>())
 sc::console::step(file ? "auto doc = sc::web::document::load(file);" : "auto doc = sc::web::document::parse(svg);");
 const auto root = doc.root();
 SC_SHOW(root.name());
-SC_SHOW(root.attribute("width", "?"));
+SC_SHOW(root["width"]);                 // an attribute by key, empty when it has none
+SC_SHOW(root.attribute("depth", "?"));  // or with a fallback; attribute(name) is an optional
 
 sc::console::heading("Attributes: a range of {name, value}");
 for (const auto &[name, value]: root.attributes()) sc::console::note(std::string{name} + " = " + std::string{value});
@@ -78,7 +82,7 @@ if (gold != children.end()) SC_SHOW((*gold).name());
 sc::console::heading("Text, entities decoded");
 if (const auto title = root.child("title")) SC_SHOW(title->text());
 if (const auto text = root.child("text")) SC_SHOW(text->text());                       // its tspan's text too
-if (const auto use = root.child("use")) SC_SHOW(use->attribute("xlink:href", ""));     // a prefixed attribute
+if (const auto use = root.child("use")) SC_SHOW((*use)["xlink:href"]);                 // a prefixed attribute
 
 sc::console::heading("A mistake");
 try {

@@ -136,6 +136,12 @@ namespace sc::web {
         /// The value, or fallback when it has no such attribute.
         [[nodiscard]] std::string_view attribute(std::string_view name, std::string_view fallback) const;
 
+        /// An attribute's value, empty when it has none, as std::map and nlohmann::json read by
+        /// key: svg["width"]. attribute() or contains() tell an empty value from a missing one.
+        [[nodiscard]] std::string_view operator[](const std::string_view name) const { return attribute(name, {}); }
+
+        [[nodiscard]] bool contains(const std::string_view name) const { return attribute(name).has_value(); }
+
         [[nodiscard]] web::attributes attributes() const;
 
         [[nodiscard]] elements children() const;
