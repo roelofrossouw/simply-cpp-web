@@ -35,7 +35,8 @@ int main(int argc, char **argv) {
         sc::console::step(file ? "auto doc = sc::web::document::load(file);" : "auto doc = sc::web::document::parse(svg);");
         const auto root = doc.root();
         SC_SHOW(root.name());
-        SC_SHOW(root.attribute("width", "?"));
+        SC_SHOW(root["width"]);                 // an attribute by key, empty when it has none
+        SC_SHOW(root.attribute("depth", "?"));  // or with a fallback; attribute(name) is an optional
 
         sc::console::heading("Attributes: a range of {name, value}");
         for (const auto &[name, value]: root.attributes()) sc::console::note(std::string{name} + " = " + std::string{value});
@@ -50,7 +51,7 @@ int main(int argc, char **argv) {
         sc::console::heading("Text, entities decoded");
         if (const auto title = root.child("title")) SC_SHOW(title->text());
         if (const auto text = root.child("text")) SC_SHOW(text->text());                       // its tspan's text too
-        if (const auto use = root.child("use")) SC_SHOW(use->attribute("xlink:href", ""));     // a prefixed attribute
+        if (const auto use = root.child("use")) SC_SHOW((*use)["xlink:href"]);                 // a prefixed attribute
 
         sc::console::heading("A mistake");
         try {
