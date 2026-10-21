@@ -55,13 +55,13 @@ namespace sc::web {
             std::call_once(once, [] { xmlInitParser(); });
         }
 
-        // An attribute's name as written, and its value: in place when it's one text node (the usual
-        // case), else joined and kept.
+        // An attribute's name as written: kept when it has a prefix.
         std::string_view name_of(detail::document_data &data, const xmlAttr *at) {
             if (!at->ns || !at->ns->prefix) return view(at->name);
             return data.keep(qualified(at->ns, at->name));
         }
 
+        // In place when the value is one text node (the usual case), else joined and kept.
         std::string_view value_of(detail::document_data &data, const xmlAttr *at) {
             const xmlNode *value = at->children;
             if (!value) return {};
@@ -81,8 +81,6 @@ namespace sc::web {
         }
     }
 
-    // attributes
-
     attribute attributes::iterator::operator*() const {
         const auto *at = as_attribute(at_);
         return {name_of(*document_, at), value_of(*document_, at)};
@@ -98,8 +96,6 @@ namespace sc::web {
         ++*this;
         return before;
     }
-
-    // elements
 
     elements::iterator::iterator(std::shared_ptr<detail::document_data> document, std::shared_ptr<const std::string> name, const void *at)
         : document_(std::move(document)), name_(std::move(name)), at_(next_element(as_node(at), name_.get())) {
@@ -117,8 +113,6 @@ namespace sc::web {
         ++*this;
         return before;
     }
-
-    // element
 
     std::string_view element::name() const & { return view(as_node(node_)->name); }
 
@@ -162,8 +156,6 @@ namespace sc::web {
     }
 
     long element::line() const { return xmlGetLineNo(as_node(node_)); }
-
-    // document
 
     document document::parse(const std::string_view xml) {
         initialise();

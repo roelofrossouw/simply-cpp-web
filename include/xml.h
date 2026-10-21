@@ -210,7 +210,6 @@ namespace sc::web {
         /// Throws sc::web::error when the file can't be read or isn't XML.
         [[nodiscard]] static document load(const std::filesystem::path &file);
 
-        /// Its root element.
         [[nodiscard]] element root() const;
 
     private:
