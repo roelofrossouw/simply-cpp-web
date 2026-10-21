@@ -9,7 +9,7 @@ get_sc_version()
 message(STATUS "SimplyCPP ${SC_MODULE} Version: ${SC_VERSION}")
 
 # The demo's sc::console and sc::params.
-find_or_install_package(sc-core simply-cpp-dev simply-cpp 1.12.0)
+find_or_install_package(sc-core simply-cpp-dev simply-cpp 1.20.0)
 # libxml2: CMake's own FindLibXml2 finds Ubuntu's (libxml2-dev) or the one in the macOS SDK, so
 # nothing comes from Homebrew. It stays out of the installed headers.
 find_or_install_package(LibXml2 libxml2-dev libxml2)
