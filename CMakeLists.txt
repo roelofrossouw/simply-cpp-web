@@ -20,6 +20,8 @@ set(SOURCE_LINK_LIBRARIES)
 
 # CSS declarations, as in a style attribute; plain C++.
 add_sc_object(style)
+# HTML character references, encoded and decoded as Perl's HTML::HTML5::Entities does; plain C++.
+add_sc_object(html_entities)
 add_sc_object(xml LINK_LIBRARIES LibXml2::LibXml2 PUBLIC_LINK_LIBRARIES LibXml2::LibXml2)
 
 add_sc_libraries(DESCRIPTION "simply-cpp-web")

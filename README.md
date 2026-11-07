@@ -71,6 +71,21 @@ own entities may expand. Those entities, the predefined ones and character
 references are decoded in text and values; text in another encoding comes as
 UTF-8.
 
+## HTML character references
+
+`html_entities.h` encodes and decodes them as Perl's HTML::HTML5::Entities does, so code moving off it
+keeps its text: `encode_entities` escapes what isn't a word character, white space or plain ASCII
+punctuation (`"` `&` `'` `<` `>`, control characters, symbols such as € or emoji), with HTML 4's
+named entity where there is one and a hex one otherwise; `decode_entities` replaces every named
+reference of the HTML Standard and decimal and hex ones, with or without `;`.
+
+```cpp
+#include <html_entities.h>
+
+sc::html::encode_entities("Café <b> & €5");          // Café &lt;b&gt; &amp; &euro;5
+sc::html::decode_entities("&lt;p&gt;caf&eacute;&#169");  // <p>café©
+```
+
 ## Demo
 
 `sc-web-xml` reads an XML file, or without one a small SVG of its own, and
