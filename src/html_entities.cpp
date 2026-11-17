@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iterator>
 
-namespace sc::html {
+namespace sc::web {
     namespace {
         constexpr char32_t replacement = 0xFFFD;
 

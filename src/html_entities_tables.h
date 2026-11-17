@@ -1,6 +1,6 @@
 #pragma once
-// Generated: do not edit. The tables of sc::html's entities (html_entities.cpp), as Perl's
-// HTML::HTML5::Entities 0.004 has them under Perl 5.34 (Ubuntu 22.04), so sc::html matches what
+// Generated: do not edit. The tables of sc::web's entities (html_entities.cpp), as Perl's
+// HTML::HTML5::Entities 0.004 has them under Perl 5.34 (Ubuntu 22.04), so sc::web matches what
 // 1web's database functions did with it:
 //   named_references  every named character reference of the WHATWG HTML Standard (2125, without
 //                     the legacy forms lacking ';'), sorted by name's bytes, each to one or two code points
@@ -10,7 +10,7 @@
 //   word_ranges       Perl's \w (Unicode word characters), how far a name in decode_entities() runs
 #include <cstdint>
 
-namespace sc::html::detail {
+namespace sc::web::detail {
     struct named_reference {
         const char *name;
         char32_t first, second; // second: 0 when it's one code point

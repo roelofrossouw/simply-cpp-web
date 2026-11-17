@@ -1,4 +1,4 @@
-// sc::html's entities against what 1web's database functions gave on db3 (Perl's
+// sc::web's entities against what 1web's database functions gave on db3 (Perl's
 // HTML::HTML5::Entities 0.004: html_encode and html_decode_work), recorded 2026-11-07.
 #include <sc/web/html_entities.h>
 
@@ -11,8 +11,8 @@ namespace {
 }
 
 int main() {
-    using sc::html::decode_entities;
-    using sc::html::encode_entities;
+    using sc::web::decode_entities;
+    using sc::web::encode_entities;
 
     SECTION("encode_entities as Perl's");
     {

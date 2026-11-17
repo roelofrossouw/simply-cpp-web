@@ -82,8 +82,8 @@ reference of the HTML Standard and decimal and hex ones, with or without `;`.
 ```cpp
 #include <sc/web/html_entities.h>
 
-sc::html::encode_entities("Café <b> & €5");          // Café &lt;b&gt; &amp; &euro;5
-sc::html::decode_entities("&lt;p&gt;caf&eacute;&#169");  // <p>café©
+sc::web::encode_entities("Café <b> & €5");          // Café &lt;b&gt; &amp; &euro;5
+sc::web::decode_entities("&lt;p&gt;caf&eacute;&#169");  // <p>café©
 ```
 
 ## Demo

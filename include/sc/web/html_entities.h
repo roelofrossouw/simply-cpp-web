@@ -3,8 +3,8 @@
 // (its encode_entities and decode_entities with their defaults), so code that used it gets the same
 // text from these. UTF-8 in and out; bytes that aren't UTF-8 pass through unchanged.
 //
-//     sc::html::encode_entities("Café <b> & “quotes”")   // Café &lt;b&gt; &amp; &ldquo;quotes&rdquo;
-//     sc::html::decode_entities("&lt;p&gt;caf&eacute;&#x2014;&#169")   // <p>café—©
+//     sc::web::encode_entities("Café <b> & “quotes”")   // Café &lt;b&gt; &amp; &ldquo;quotes&rdquo;
+//     sc::web::decode_entities("&lt;p&gt;caf&eacute;&#x2014;&#169")   // <p>café—©
 //
 // encode_entities escapes what isn't a word character (Unicode letters, digits, marks and _ stay as
 // they are), white space or plain ASCII punctuation: so " & ' < >, control characters and symbols
@@ -21,7 +21,18 @@
 #include <string>
 #include <string_view>
 
-namespace sc::html {
+namespace sc::web {
     [[nodiscard]] std::string encode_entities(std::string_view text);
     [[nodiscard]] std::string decode_entities(std::string_view text);
+}
+
+// sc::html was this module's second namespace until 2.1.0; it stays one minor cycle for code not yet
+// moved to sc::web, and goes with the next major.
+namespace sc::html {
+    [[deprecated("use sc::web::encode_entities")]] [[nodiscard]] inline std::string encode_entities(const std::string_view text) {
+        return web::encode_entities(text);
+    }
+    [[deprecated("use sc::web::decode_entities")]] [[nodiscard]] inline std::string decode_entities(const std::string_view text) {
+        return web::decode_entities(text);
+    }
 }
