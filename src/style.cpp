@@ -1,4 +1,4 @@
-#include "style.h"
+#include <sc/web/style.h>
 
 #include <algorithm>
 #include <cctype>

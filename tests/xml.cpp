@@ -1,6 +1,6 @@
 // sc::web's XML: parsing, the root, attributes (prefixed ones too), children as ranges, text with
 // entities, handles that keep their document alive, and what mistakes throw.
-#include <xml.h>
+#include <sc/web/xml.h>
 
 #include "sc_test.h"
 

@@ -16,7 +16,7 @@ target_link_libraries(myapp PRIVATE sc::sc-web-shared)
 ```
 
 ```cpp
-#include <xml.h>
+#include <sc/web/xml.h>
 
 const auto doc = sc::web::document::load("drawing.svg");   // or parse(text); sc::web::error says where it's wrong
 const auto svg = doc.root();
@@ -42,7 +42,7 @@ use["xlink:href"];                              // a prefixed attribute, by its 
 declarations, into something read like a `std::map`:
 
 ```cpp
-#include <style.h>   // xml.h includes it
+#include <sc/web/style.h>   // xml.h includes it
 
 const auto style = rect.style();       // empty when it has no style attribute
 style["fill"];                         // "#2a6f97", or empty
@@ -80,7 +80,7 @@ named entity where there is one and a hex one otherwise; `decode_entities` repla
 reference of the HTML Standard and decimal and hex ones, with or without `;`.
 
 ```cpp
-#include <html_entities.h>
+#include <sc/web/html_entities.h>
 
 sc::html::encode_entities("Café <b> & €5");          // Café &lt;b&gt; &amp; &euro;5
 sc::html::decode_entities("&lt;p&gt;caf&eacute;&#169");  // <p>café©

@@ -1,4 +1,4 @@
-#include "html_entities.h"
+#include <sc/web/html_entities.h>
 #include "html_entities_tables.h"
 
 #include <algorithm>

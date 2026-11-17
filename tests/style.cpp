@@ -1,7 +1,7 @@
 // sc::web::style: CSS declarations read like a map: names case-insensitive, values as written,
 // semicolons in quotes and parentheses, comments, !important, repeats, and element::style().
-#include <style.h>
-#include <xml.h>
+#include <sc/web/style.h>
+#include <sc/web/xml.h>
 
 #include "sc_test.h"
 

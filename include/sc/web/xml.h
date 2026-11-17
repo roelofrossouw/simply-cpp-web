@@ -1,6 +1,6 @@
 #pragma once
 
-#include "style.h"
+#include <sc/web/style.h>
 
 #include <cstddef>
 #include <filesystem>

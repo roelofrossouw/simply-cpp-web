@@ -1,6 +1,6 @@
 // sc::html's entities against what 1web's database functions gave on db3 (Perl's
 // HTML::HTML5::Entities 0.004: html_encode and html_decode_work), recorded 2026-11-07.
-#include "html_entities.h"
+#include <sc/web/html_entities.h>
 
 #include "sc_test.h"
 

@@ -6,10 +6,10 @@
 #include <iostream>
 #include <string>
 
-#include <params.h>
-#include <sc.h>
+#include <sc/core/params.h>
+#include <sc/core/sc.h>
 
-#include <xml.h>
+#include <sc/web/xml.h>
 
 int main(int argc, char **argv) {
     // sc::params brings -h/--help, and reports mistakes and exits.
