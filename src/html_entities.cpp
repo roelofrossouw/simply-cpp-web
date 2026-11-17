@@ -166,3 +166,9 @@ namespace sc::web {
         return out;
     }
 }
+
+// The 2.0 names, kept exported for programs built against them (see html_entities.h).
+namespace sc::html {
+    std::string encode_entities(const std::string_view text) { return web::encode_entities(text); }
+    std::string decode_entities(const std::string_view text) { return web::decode_entities(text); }
+}

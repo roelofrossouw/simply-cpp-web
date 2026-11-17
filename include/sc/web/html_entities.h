@@ -26,13 +26,9 @@ namespace sc::web {
     [[nodiscard]] std::string decode_entities(std::string_view text);
 }
 
-// sc::html was this module's second namespace until 2.1.0; it stays one minor cycle for code not yet
-// moved to sc::web, and goes with the next major.
+// sc::html was this module's second namespace until 2.1.0. Its two functions stay, defined in the
+// library (programs built against 2.0 call them), until the next major.
 namespace sc::html {
-    [[deprecated("use sc::web::encode_entities")]] [[nodiscard]] inline std::string encode_entities(const std::string_view text) {
-        return web::encode_entities(text);
-    }
-    [[deprecated("use sc::web::decode_entities")]] [[nodiscard]] inline std::string decode_entities(const std::string_view text) {
-        return web::decode_entities(text);
-    }
+    [[deprecated("use sc::web::encode_entities")]] [[nodiscard]] std::string encode_entities(std::string_view text);
+    [[deprecated("use sc::web::decode_entities")]] [[nodiscard]] std::string decode_entities(std::string_view text);
 }
