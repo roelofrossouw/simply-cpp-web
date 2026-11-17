@@ -40,4 +40,4 @@ add_sc_example(sc-web-xml LINK_LIBRARIES sc::sc-core-shared sc::sc-web-shared)
 
 # libxml2's runtime package (libxml2, or libxml2-16 on resolute) comes from dpkg-shlibdeps. The
 # library doesn't use sc-core; the demo loads libsc-core-shared (simply-cpp).
-package_sc_module(DEPENDS "simply-cppNone (>= 2.2.0~)" DEV_DEPENDS libxml2-dev)
+package_sc_module(DEPENDS "simply-cpp (>= 2.2.0~)" DEV_DEPENDS libxml2-dev)
