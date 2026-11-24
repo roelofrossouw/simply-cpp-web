@@ -86,6 +86,24 @@ sc::web::encode_entities("Café <b> & €5");          // Café &lt;b&gt; &amp; 
 sc::web::decode_entities("&lt;p&gt;caf&eacute;&#169");  // <p>café©
 ```
 
+## Markdown
+
+`markdown.h` turns Markdown into HTML: CommonMark, with GitHub's tables (each column's alignment
+kept as `style="text-align: ..."`), strikethrough, task lists and bare links, parsed by
+[md4c](https://github.com/mity/md4c). Text is escaped (HTML in the Markdown is text, unless
+`raw_html`), fenced code is `<pre><code class="language-x">`, and every heading gets the id GitHub
+gives it, so `[see](#12-in-scope)` links reach `## 1.2 In scope`. `headings()` lists them, for a
+table of contents.
+
+```cpp
+#include <sc/web/markdown.h>
+
+const sc::web::markdown page{"# Report\n\n| Item | Amount |\n|---|--:|\n| Tea | 12.50 |\n"};
+page.html();                 // <h1 id="report">Report</h1>\n<table>...<td style="text-align: right">12.50</td>...
+page.headings()[0].id;       // "report"
+sc::web::markdown::anchor("6.4 Backup layers");   // "64-backup-layers"
+```
+
 ## Demo
 
 `sc-web-xml` reads an XML file, or without one a small SVG of its own, and
