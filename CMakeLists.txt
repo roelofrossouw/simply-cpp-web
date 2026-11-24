@@ -14,7 +14,9 @@ find_or_install_package(sc-core simply-cpp-dev simply-cpp 4.0.0)
 # nothing comes from Homebrew. It stays out of the installed headers.
 find_or_install_package(LibXml2 libxml2-dev libxml2)
 # md4c parses Markdown for sc::web::markdown (MIT; libmd4c-dev, Homebrew md4c), behind its header.
-find_or_install_package(md4c libmd4c-dev md4c)
+# Ubuntu's md4cConfig.cmake names md4c-html's library too, so its package comes along (on noble a
+# missing libmd4c-html.so fails the find): both are installed, a list apt gets as two packages.
+find_or_install_package(md4c "libmd4c-dev;libmd4c-html0-dev" md4c)
 
 set(SOURCE_OBJECTS)
 set(SOURCE_LIBRARIES)
@@ -44,4 +46,4 @@ add_sc_example(sc-web-xml LINK_LIBRARIES sc::sc-core-shared sc::sc-web-shared)
 
 # libxml2's and md4c's runtime packages (libxml2, or libxml2-16 on resolute; libmd4c0) come from dpkg-shlibdeps. The
 # library doesn't use sc-core; the demo loads libsc-core-shared (simply-cpp).
-package_sc_module(DEPENDS "simply-cpp (>= 4.0.0~)" DEV_DEPENDS "libxml2-dev, libmd4c-dev")
+package_sc_module(DEPENDS "simply-cpp (>= 4.0.0~)" DEV_DEPENDS "libxml2-dev, libmd4c-dev, libmd4c-html0-dev")
