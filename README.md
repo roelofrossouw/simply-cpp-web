@@ -3,7 +3,7 @@
 C++20 reading of the web's document formats, through ranges that feel like the
 standard library's. XML now, on [libxml2](https://gitlab.gnome.org/GNOME/libxml2)
 (the parser PostgreSQL, the GNOME desktop and much of Linux use); HTML, and CSS
-for styles, are planned. sc-graphics reads SVG with it into an `sc::drawing`.
+for styles, are planned. sc-graphics reads SVG with it into an `sc::graphics::drawing`.
 
 **Documentation:** the [simply-cpp wiki](https://github.com/roelofrossouw/simply-cpp/wiki) has a [Web formats guide](https://github.com/roelofrossouw/simply-cpp/wiki/Web) and the [sc-web reference](https://github.com/roelofrossouw/simply-cpp/wiki/Reference-sc-web), plus [getting started](https://github.com/roelofrossouw/simply-cpp/wiki/Getting-Started) for the whole suite.
 

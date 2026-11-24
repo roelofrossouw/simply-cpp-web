@@ -9,7 +9,7 @@ get_sc_version()
 message(STATUS "SimplyCPP ${SC_MODULE} Version: ${SC_VERSION}")
 
 # The demo's sc::console and sc::params.
-find_or_install_package(sc-core simply-cpp-dev simply-cpp 3.0.0)
+find_or_install_package(sc-core simply-cpp-dev simply-cpp 4.0.0)
 # libxml2: CMake's own FindLibXml2 finds Ubuntu's (libxml2-dev) or the one in the macOS SDK, so
 # nothing comes from Homebrew. It stays out of the installed headers.
 find_or_install_package(LibXml2 libxml2-dev libxml2)
@@ -40,4 +40,4 @@ add_sc_example(sc-web-xml LINK_LIBRARIES sc::sc-core-shared sc::sc-web-shared)
 
 # libxml2's runtime package (libxml2, or libxml2-16 on resolute) comes from dpkg-shlibdeps. The
 # library doesn't use sc-core; the demo loads libsc-core-shared (simply-cpp).
-package_sc_module(DEPENDS "simply-cpp (>= 3.0.0~)" DEV_DEPENDS libxml2-dev)
+package_sc_module(DEPENDS "simply-cpp (>= 4.0.0~)" DEV_DEPENDS libxml2-dev)
